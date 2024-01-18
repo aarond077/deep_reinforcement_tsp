@@ -49,7 +49,7 @@ parser.add_argument('--update_value',
                     action='store_true',
                     help='Use the value function for TD updates')
 parser.add_argument('--epochs',
-                    default=5 , type=int, help='Number of epochs')
+                    default=5 , type=int, help='Number of epochs') #200
 parser.add_argument('--lr',
                     type=float, default=0.001, help='Learning rate')
 parser.add_argument('--wd',
@@ -127,6 +127,7 @@ if args.gpu and torch.cuda.is_available():
     print("GPU: %s" % torch.cuda.get_device_name(torch.cuda.current_device()))
     device = torch.device("cuda")
 else:
+    print("no cuda") #print statement for cluster analysis
     USE_CUDA = False
     device = torch.device("cpu")
 
@@ -284,9 +285,9 @@ def learn(R, t_s, beta, zeta, count_learn, epoch):
     optimizer.step()
     loss = p_loss + r_loss
 
-    if t_s == 0:
-        print(f'Loss of first step in epoch: {t_s + 1}')
-        print(loss)
+    #if t_s == 0:
+    #    print(f'Loss of first step in epoch: {t_s + 1}')
+    #    print(loss)
 
     # track statistics
     sum_returns += returns.mean()
@@ -357,6 +358,7 @@ writer = SummaryWriter(comment="-pg_" + args.name)
 
 if __name__ == '__main__':
     for epoch in range(args.epochs):
+        print(epoch)
         # training
         train_data = TSPDataset(dataset_fname=None,
                                 size=args.n_points,
