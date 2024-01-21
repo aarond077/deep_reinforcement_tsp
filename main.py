@@ -63,7 +63,6 @@ if args.gpu and torch.cuda.is_available():
 else:
     USE_CUDA = False
 
-USE_CUDA = False
 
 # loading the model from file
 if args.load_path != '':
