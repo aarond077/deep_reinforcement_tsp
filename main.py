@@ -49,7 +49,7 @@ parser.add_argument('--update_value',
                     action='store_true',
                     help='Use the value function for TD updates')
 parser.add_argument('--epochs',
-                    default=5 , type=int, help='Number of epochs') #200
+                    default=1 , type=int, help='Number of epochs') #200
 parser.add_argument('--lr',
                     type=float, default=0.001, help='Learning rate')
 parser.add_argument('--wd',

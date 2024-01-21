@@ -6,6 +6,14 @@ import torch
 import matplotlib.pyplot as plt
 from scipy.spatial import distance_matrix
 
+
+
+def normalize_vector(vec):
+    norm = np.linalg.norm(vec)
+    vec = vec/norm
+    return vec
+
+
 def tsp_opt(points):
     """
     Dynamic programing solution for the TSP - O(2^n*n^2)
