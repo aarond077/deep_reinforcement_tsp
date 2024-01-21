@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(description='TSPNet')
 parser.add_argument('--test_size',
                     default=1, type=int, help='Test data size') #512
 parser.add_argument('--test_from_data',
-                    default=True,
+                    default=False, #True
                     action='store_true', help='Render')
 parser.add_argument('--n_points',
                     type=int, default=29, help='Number of points in TSP') #20
