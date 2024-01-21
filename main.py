@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(description='TSPNet')
 parser.add_argument('--test_size',
                     default=1, type=int, help='Test data size') #512
 parser.add_argument('--test_from_data',
-                    default=False, #True
+                    default=True,
                     action='store_true', help='Render')
 parser.add_argument('--n_points',
                     type=int, default=29, help='Number of points in TSP') #20
@@ -52,7 +52,7 @@ parser.add_argument('--graph_ref',
 parser.add_argument('--load_path', type=str,
     default='best_policy/policy-TSP20-epoch-189.pt')
 parser.add_argument('--load_data_path', type=str,
-    default='data/CitiesBayern.json')
+    default='data/TSP29-data-test.json')
 parser.add_argument('--data_dir', type=str, default='data')
 
 args = parser.parse_args()
@@ -88,9 +88,6 @@ if args.test_from_data:
                                                       'TSP{}-data-test.json'
                                                       .format(args.n_points)),
                            num_samples=args.test_size, seed=1234)
-else:
-    test_data = TSPDataset(dataset_fname=os.path.join(args.load_data_path), num_samples=args.test_size, seed=1234)
-
 
 test_loader = DataLoader(test_data,
                          batch_size=args.test_size,
