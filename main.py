@@ -21,7 +21,7 @@ parser.add_argument('--test_from_data',
                     default=True,
                     action='store_true', help='Render')
 parser.add_argument('--n_points',
-                    type=int, default=29, help='Number of points in TSP') #20
+                    type=int, default=22, help='Number of points in TSP') #20
 # ---------------------------------- Train ---------------------------------- #
 parser.add_argument('--n_steps',
                     default=2000,
