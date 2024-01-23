@@ -107,7 +107,7 @@ if __name__ == '__main__':
     for batch_idx, batch_sample in enumerate(test_loader):
         b_sample = batch_sample.clone().detach().numpy()
         print(b_sample)
-        if n_nodes != 20:
+        if args.n_points != 20:
             b_sample = utils.normalize_vector(b_sample)
         print(b_sample)
         sum_reward = 0
