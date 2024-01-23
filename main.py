@@ -21,7 +21,7 @@ parser.add_argument('--test_from_data',
                     default=True,
                     action='store_true', help='Render')
 parser.add_argument('--n_points',
-                    type=int, default=22, help='Number of points in TSP') #20
+                    type=int, default=20, help='Number of points in TSP') #20
 # ---------------------------------- Train ---------------------------------- #
 parser.add_argument('--n_steps',
                     default=2000,
@@ -54,6 +54,7 @@ parser.add_argument('--load_path', type=str,
 parser.add_argument('--load_data_path', type=str,
     default='data/TSP29-data-test.json')
 parser.add_argument('--data_dir', type=str, default='data')
+parser.add_argument('--sample_seed', type=int, default=1234)
 
 args = parser.parse_args()
 
