@@ -22,6 +22,7 @@ class TSPDataset(Dataset):
             print('  [*] Loading dataset from {}'.format(dataset_fname))
             dset = pd.read_json(dataset_fname)
             ids = random.sample(range(len(dset)), num_samples)
+            print(ids)
             for i in tqdm(ids):
                 self.data_set.append(torch.from_numpy(np.array(dset.iloc[i,
                                                                          0])))
