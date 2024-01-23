@@ -85,7 +85,7 @@ if USE_CUDA:
 
 if args.test_from_data:
     test_data = TSPDataset(dataset_fname=os.path.join(args.data_dir,
-                                                      'TSP{}-data-test.json'
+                                                      'TSP{}-data-test1.json'
                                                       .format(args.n_points)),
                            num_samples=args.test_size, seed=1234)
 test_loader = DataLoader(test_data,
