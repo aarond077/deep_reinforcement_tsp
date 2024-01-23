@@ -106,8 +106,8 @@ if __name__ == '__main__':
         b_sample = batch_sample.clone().detach().numpy()
         print(b_sample)
 
-        if args.n_points != 20 and args.n_points != 50:
-            b_sample = utils.normalize_vector(b_sample)
+        #if args.n_points != 20 and args.n_points != 50:
+         #   b_sample = utils.normalize_vector(b_sample)
         print(b_sample)
         sum_reward = 0
         env = VecEnv(TSPInstanceEnv,
