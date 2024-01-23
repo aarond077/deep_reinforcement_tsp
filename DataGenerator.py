@@ -25,7 +25,7 @@ class TSPDataset(Dataset):
 
             for i in tqdm(ids):
                 self.data_set.append(torch.from_numpy(np.array(dset.iloc[i,0])))
-                print(data_set)
+                print(self.data_set)
                 self.opt.append(dset.iloc[i, -1])
 
         else:
