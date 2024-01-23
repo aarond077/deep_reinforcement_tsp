@@ -103,7 +103,7 @@ if __name__ == '__main__':
     distances = []
     initial_distances = []
     distances_per_step = []
-    for batch_idx, batch_sample in enumerate(test_loader)
+    for batch_idx, batch_sample in enumerate(test_loader):
         print(batch_sample)
         b_sample = batch_sample.clone().detach().numpy()
         print(b_sample)
