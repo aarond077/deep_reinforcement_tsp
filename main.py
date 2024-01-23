@@ -88,7 +88,7 @@ if args.test_from_data:
     test_data = TSPDataset(dataset_fname=os.path.join(args.data_dir,
                                                       'TSP{}-data-test.json'
                                                       .format(args.n_points)),
-                           num_samples=args.test_size, seed=1234)
+                           num_samples=args.test_size, seed=args.sample_seed)
 test_loader = DataLoader(test_data,
                          batch_size=args.test_size,
                          shuffle=False,
