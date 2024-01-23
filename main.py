@@ -51,8 +51,6 @@ parser.add_argument('--graph_ref',
 # --------------------------------- Misc --------------------------------- #
 parser.add_argument('--load_path', type=str,
     default='best_policy/policy-TSP20-epoch-189.pt')
-parser.add_argument('--load_data_path', type=str,
-    default='data/TSP29-data-test.json')
 parser.add_argument('--data_dir', type=str, default='data')
 parser.add_argument('--sample_seed', type=int, default=1234)
 
@@ -105,11 +103,10 @@ if __name__ == '__main__':
     initial_distances = []
     distances_per_step = []
     for batch_idx, batch_sample in enumerate(test_loader):
-        print(batch_sample)
         b_sample = batch_sample.clone().detach().numpy()
         print(b_sample)
 
-        if args.n_points != 20:
+        if args.n_points != 20 and args.n_points != 50:
             b_sample = utils.normalize_vector(b_sample)
         print(b_sample)
         sum_reward = 0
