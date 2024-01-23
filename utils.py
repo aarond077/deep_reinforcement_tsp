@@ -14,6 +14,7 @@ def normalize_vector(vec):
     return vec
 
 
+
 def tsp_opt(points):
     """
     Dynamic programing solution for the TSP - O(2^n*n^2)

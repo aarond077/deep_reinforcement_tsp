@@ -88,7 +88,7 @@ if args.test_from_data:
                                                       'TSP{}-data-test.json'
                                                       .format(args.n_points)),
                            num_samples=args.test_size, seed=1234)
-
+    print(test_data)
 test_loader = DataLoader(test_data,
                          batch_size=args.test_size,
                          shuffle=False,
@@ -130,6 +130,7 @@ if __name__ == '__main__':
                 _, action, _, _, _, hidden = model(state, best_state, hidden)
             action = action.cpu().numpy()
             state, reward, _, best_distance, distance, best_state = env.step(action)
+            #print(best_distance)
             sum_reward += reward
             t += 1
             step_best_distances.append(np.mean(best_distance) / 10000)
