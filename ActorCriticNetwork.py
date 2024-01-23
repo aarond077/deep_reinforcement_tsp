@@ -95,15 +95,15 @@ class Encoder(nn.Module):
             c0 = c0.unsqueeze(0).repeat(self.n_rnn_layers, 1, 1)
 
         #ToDo: remove GCN
-        #g_embedding = embedded_input \
-        #    + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
-       # g_embedding = g_embedding \
-        #    + F.relu(torch.bmm(edges, self.g_embedding1(g_embedding)))
-        #g_embedding = g_embedding \
-        #    + F.relu(torch.bmm(edges, self.g_embedding2(g_embedding)))
+        g_embedding = embedded_input \
+            + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
+        g_embedding = g_embedding \
+            + F.relu(torch.bmm(edges, self.g_embedding1(g_embedding)))
+        g_embedding = g_embedding \
+            + F.relu(torch.bmm(edges, self.g_embedding2(g_embedding)))
 
 
-        g_embedding = embedded_input #ÄNDERUNG
+        #g_embedding = embedded_input #ÄNDERUNG
 
 
         rnn_input = g_embedding
