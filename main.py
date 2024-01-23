@@ -88,7 +88,6 @@ if args.test_from_data:
                                                       'TSP{}-data-test.json'
                                                       .format(args.n_points)),
                            num_samples=args.test_size, seed=1234)
-    print(test_data)
 test_loader = DataLoader(test_data,
                          batch_size=args.test_size,
                          shuffle=False,
@@ -104,7 +103,8 @@ if __name__ == '__main__':
     distances = []
     initial_distances = []
     distances_per_step = []
-    for batch_idx, batch_sample in enumerate(test_loader):
+    for batch_idx, batch_sample in enumerate(test_loader)
+        print(batch_sample)
         b_sample = batch_sample.clone().detach().numpy()
         print(b_sample)
 
