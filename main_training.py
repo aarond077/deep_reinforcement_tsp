@@ -558,7 +558,7 @@ if __name__ == '__main__':
             #       np.array2string(avg_probs,
             #                       precision=1, separator=' ',
             #                       suppress_small=True), "\033[0m")
-            #test
+            #test test
 
             with open(os.path.join(args.log_dir,
                                    'pg-{}-TSP{}.json'
