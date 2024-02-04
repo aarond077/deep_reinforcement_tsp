@@ -379,7 +379,7 @@ if __name__ == '__main__':
             args.n = 20
 
         for batch_idx, batch_sample in enumerate(train_loader):
-            t = 0
+            print(batch_sample)
             b_sample = batch_sample.clone().detach().numpy()
             batch_reward = 0
 
@@ -443,6 +443,7 @@ if __name__ == '__main__':
         val_epoch_initial_distances = []
         sum_probs = 0
         for val_batch_idx, val_batch_sample in enumerate(test_loader):
+            print(val_batch_sample)
             val_b_sample = val_batch_sample.clone().detach().numpy()
             val_batch_reward = 0
             env = VecEnv(TSPInstanceEnv, val_b_sample.shape[0], args.n_points)
