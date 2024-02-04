@@ -358,7 +358,6 @@ writer = SummaryWriter(comment="-pg_" + args.name)
 
 if __name__ == '__main__':
     for epoch in range(args.epochs):
-        print(epoch)
         # training
         train_data = TSPDataset(dataset_fname=None,
                                 size=args.n_points,
