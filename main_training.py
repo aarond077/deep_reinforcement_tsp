@@ -380,6 +380,7 @@ if __name__ == '__main__':
 
         for batch_idx, batch_sample in enumerate(train_loader):
             print(batch_sample)
+            t = 0
             b_sample = batch_sample.clone().detach().numpy()
             batch_reward = 0
 
