@@ -380,7 +380,6 @@ if __name__ == '__main__':
 
         for batch_idx, batch_sample in enumerate(train_loader):
             print(batch_sample)
-            #this is a comment
             t = 0
             b_sample = batch_sample.clone().detach().numpy()
             batch_reward = 0
@@ -559,6 +558,7 @@ if __name__ == '__main__':
             #       np.array2string(avg_probs,
             #                       precision=1, separator=' ',
             #                       suppress_small=True), "\033[0m")
+            #test
 
             with open(os.path.join(args.log_dir,
                                    'pg-{}-TSP{}.json'
