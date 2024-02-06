@@ -104,11 +104,9 @@ if __name__ == '__main__':
     distances_per_step = []
     for batch_idx, batch_sample in enumerate(test_loader):
         b_sample = batch_sample.clone().detach().numpy()
-        print(b_sample)
 
         #if args.n_points != 20 and args.n_points != 50:
          #   b_sample = utils.normalize_vector(b_sample)
-        print(b_sample)
         sum_reward = 0
         env = VecEnv(TSPInstanceEnv,
                      b_sample.shape[0],
@@ -128,6 +126,8 @@ if __name__ == '__main__':
                 _, action, _, _, _, hidden = model(state, best_state, hidden)
             action = action.cpu().numpy()
             state, reward, _, best_distance, distance, best_state = env.step(action)
+
+            print("t =" + str(t) + " state:" + str(state))
             #print(best_distance)
             sum_reward += reward
             t += 1
