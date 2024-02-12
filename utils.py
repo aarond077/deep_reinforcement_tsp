@@ -206,7 +206,7 @@ def swap_2opt_(tour, i, k, tour_distance, distances):
     return new_tour, distance
 
 
-def swap_2opt_new(tour, i, k, tour_distance, D):
+def swap_2opt_new(tour, i, k, tour_distance, D): #tour: list, i: first index of swap, k: second index of swap, tour_distance: distance of tour, D: all distances
     """
     Swaps two edges by reversing a section of nodes
 
