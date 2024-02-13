@@ -106,12 +106,12 @@ class Encoder(nn.Module):
         #g_embedding = embedded_input #ÄNDERUNG
 
 
-        #rnn_input = g_embedding
+        rnn_input = g_embedding
         #rnn_input_reversed = torch.flip(g_embedding, [1])
 
 
         # first RNN reads the last node on the input
-        #rnn0_input = rnn_input[:, -1, :].unsqueeze(1)
+        rnn0_input = rnn_input[:, -1, :].unsqueeze(1)
         #self.rnn0.flatten_parameters()
         #_, (h0, c0) = self.rnn0(rnn0_input, (h0, c0))
         # second RNN reads the sequence of nodes
