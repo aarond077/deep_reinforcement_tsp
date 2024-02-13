@@ -113,7 +113,7 @@ class Encoder(nn.Module):
         # first RNN reads the last node on the input
         rnn0_input = rnn_input[:, -1, :].unsqueeze(1)
         #self.rnn0.flatten_parameters()
-        #_, (h0, c0) = self.rnn0(rnn0_input, (h0, c0))
+        _, (h0, c0) = self.rnn0(rnn0_input, (h0, c0))
         # second RNN reads the sequence of nodes
         #self.rnn.flatten_parameters()
         #s_out, s_hidden = self.rnn(rnn_input, (h0, c0))
@@ -138,7 +138,6 @@ class Encoder(nn.Module):
         lstm_replace2(s_hidden) #NOLSTM
         #s_hidden = (s_hidden[0]+s_hidden_reversed[0],
         #            s_hidden[1]+s_hidden_reversed[1])
-        _ = 0
         return s_out, s_hidden, _, g_embedding
 
 
