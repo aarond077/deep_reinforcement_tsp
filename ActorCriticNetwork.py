@@ -94,7 +94,7 @@ class Encoder(nn.Module):
             h0 = h0.unsqueeze(0).repeat(self.n_rnn_layers, 1, 1)
             c0 = c0.unsqueeze(0).repeat(self.n_rnn_layers, 1, 1)
 
-        #ToDo: remove GCN
+
         g_embedding = embedded_input \
             + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
         g_embedding = g_embedding \
@@ -125,7 +125,6 @@ class Encoder(nn.Module):
         # second RNN reads the sequence of nodes
         #self.rnn_reversed.flatten_parameters()
         #s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed,
-        #                                                      (h0_r, c0_r))
         s_out = g_embedding #ÄNDERUNG NO LSTM
 
         s_out = tanh(self.W_f(s_out)
