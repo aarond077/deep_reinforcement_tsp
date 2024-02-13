@@ -94,13 +94,13 @@ class Encoder(nn.Module):
             h0 = h0.unsqueeze(0).repeat(self.n_rnn_layers, 1, 1)
             c0 = c0.unsqueeze(0).repeat(self.n_rnn_layers, 1, 1)
 
-        #ToDo: remove GCN
-        #g_embedding = embedded_input \
-         #   + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
-        #g_embedding = g_embedding \
-        #    + F.relu(torch.bmm(edges, self.g_embedding1(g_embedding)))
-        #g_embedding = g_embedding \
-         #   + F.relu(torch.bmm(edges, self.g_embedding2(g_embedding)))
+
+        g_embedding = embedded_input \
+            + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
+        g_embedding = g_embedding \
+            + F.relu(torch.bmm(edges, self.g_embedding1(g_embedding)))
+        g_embedding = g_embedding \
+            + F.relu(torch.bmm(edges, self.g_embedding2(g_embedding)))
 
 
         g_embedding = embedded_input #ÄNDERUNG
@@ -119,19 +119,18 @@ class Encoder(nn.Module):
         s_out, s_hidden = self.rnn(rnn_input, (h0, c0))
 
         # first RNN reads the last node on the input
-        rnn0_input_reversed = rnn_input_reversed[:, -1, :].unsqueeze(1)
-        self.rnn0_reversed.flatten_parameters()
-        _, (h0_r, c0_r) = self.rnn0_reversed(rnn0_input_reversed)
+        #rnn0_input_reversed = rnn_input_reversed[:, -1, :].unsqueeze(1)
+        #self.rnn0_reversed.flatten_parameters()
+        #_, (h0_r, c0_r) = self.rnn0_reversed(rnn0_input_reversed)
         # second RNN reads the sequence of nodes
-        self.rnn_reversed.flatten_parameters()
-        s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed,
-                                                              (h0_r, c0_r))
+        #self.rnn_reversed.flatten_parameters()
+        #s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed,
+         #                                                     (h0_r, c0_r))
 
         s_out = tanh(self.W_f(s_out)
-                     + self.W_b(torch.flip(s_out_reversed, [1])))
+                     + self.W_b(torch.flip(s_out, [1]))) # s_out_reverserd
 
-        s_hidden = (s_hidden[0]+s_hidden_reversed[0],
-                    s_hidden[1]+s_hidden_reversed[1])
+        s_hidden = (s_hidden[0], s_hidden[1]) #s_hidden[1]+s_hidden_reversed[1]
 
         return s_out, s_hidden, _, g_embedding
 
