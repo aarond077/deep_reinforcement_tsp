@@ -127,7 +127,7 @@ if args.gpu and torch.cuda.is_available():
     print("GPU: %s" % torch.cuda.get_device_name(torch.cuda.current_device()))
     device = torch.device("cuda")
 else:
-    print("no cuda") #print statement for cluster analysis
+    #print("no cuda") #print statement for cluster analysis
     USE_CUDA = False
     device = torch.device("cpu")
 
@@ -379,7 +379,7 @@ if __name__ == '__main__':
             args.n = 20
 
         for batch_idx, batch_sample in enumerate(train_loader):
-            print(batch_sample)
+            #print(batch_sample)
             t = 0
             b_sample = batch_sample.clone().detach().numpy()
             batch_reward = 0
@@ -444,7 +444,7 @@ if __name__ == '__main__':
         val_epoch_initial_distances = []
         sum_probs = 0
         for val_batch_idx, val_batch_sample in enumerate(test_loader):
-            print(val_batch_sample)
+            #print(val_batch_sample)
             val_b_sample = val_batch_sample.clone().detach().numpy()
             val_batch_reward = 0
             env = VecEnv(TSPInstanceEnv, val_b_sample.shape[0], args.n_points)

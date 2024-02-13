@@ -95,44 +95,51 @@ class Encoder(nn.Module):
             c0 = c0.unsqueeze(0).repeat(self.n_rnn_layers, 1, 1)
 
         #ToDo: remove GCN
-        #g_embedding = embedded_input \
-         #   + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
-        #g_embedding = g_embedding \
-        #    + F.relu(torch.bmm(edges, self.g_embedding1(g_embedding)))
-        #g_embedding = g_embedding \
-         #   + F.relu(torch.bmm(edges, self.g_embedding2(g_embedding)))
+        g_embedding = embedded_input \
+            + F.relu(torch.bmm(edges, self.g_embedding(embedded_input)))
+        g_embedding = g_embedding \
+            + F.relu(torch.bmm(edges, self.g_embedding1(g_embedding)))
+        g_embedding = g_embedding \
+            + F.relu(torch.bmm(edges, self.g_embedding2(g_embedding)))
 
 
-        g_embedding = embedded_input #ÄNDERUNG
+        #g_embedding = embedded_input #ÄNDERUNG
 
 
-        rnn_input = g_embedding
-        rnn_input_reversed = torch.flip(g_embedding, [1])
+        #rnn_input = g_embedding
+        #rnn_input_reversed = torch.flip(g_embedding, [1])
 
 
         # first RNN reads the last node on the input
-        rnn0_input = rnn_input[:, -1, :].unsqueeze(1)
-        self.rnn0.flatten_parameters()
-        _, (h0, c0) = self.rnn0(rnn0_input, (h0, c0))
+        #rnn0_input = rnn_input[:, -1, :].unsqueeze(1)
+        #self.rnn0.flatten_parameters()
+        #_, (h0, c0) = self.rnn0(rnn0_input, (h0, c0))
         # second RNN reads the sequence of nodes
-        self.rnn.flatten_parameters()
-        s_out, s_hidden = self.rnn(rnn_input, (h0, c0))
-
+        #self.rnn.flatten_parameters()
+        #s_out, s_hidden = self.rnn(rnn_input, (h0, c0))
+#
         # first RNN reads the last node on the input
-        rnn0_input_reversed = rnn_input_reversed[:, -1, :].unsqueeze(1)
-        self.rnn0_reversed.flatten_parameters()
-        _, (h0_r, c0_r) = self.rnn0_reversed(rnn0_input_reversed)
+        #rnn0_input_reversed = rnn_input_reversed[:, -1, :].unsqueeze(1)
+        #self.rnn0_reversed.flatten_parameters()
+        #_, (h0_r, c0_r) = self.rnn0_reversed(rnn0_input_reversed)
         # second RNN reads the sequence of nodes
-        self.rnn_reversed.flatten_parameters()
-        s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed,
-                                                              (h0_r, c0_r))
+        #self.rnn_reversed.flatten_parameters()
+        #s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed,
+        #                                                      (h0_r, c0_r))
+        s_out = g_embedding #ÄNDERUNG NO LSTM
 
         s_out = tanh(self.W_f(s_out)
-                     + self.W_b(torch.flip(s_out_reversed, [1])))
+                     + self.W_b(s_out)) #ÄNDERUNG NO LSTM: torch.flip(s_out_reversed, [1]))
 
-        s_hidden = (s_hidden[0]+s_hidden_reversed[0],
-                    s_hidden[1]+s_hidden_reversed[1])
+        lstm_replacement1 = nn.Linear(128, 1) #NOLSTM
+        s_hidden = lstm_replacement1(s_out) #NOLSTM
+        s_hidden = s_hidden.permute(0, 2, 1) #NOLSTM
 
+        lstm_replace2 = nn.Linear(20, 128) #NOLSTM
+        lstm_replace2(s_hidden) #NOLSTM
+        #s_hidden = (s_hidden[0]+s_hidden_reversed[0],
+        #            s_hidden[1]+s_hidden_reversed[1])
+        _ = 0
         return s_out, s_hidden, _, g_embedding
 
 
