@@ -137,7 +137,8 @@ class Encoder(nn.Module):
 
         lstm_replace2 = nn.Linear(20, 128) #NOLSTM
         s_hidden = lstm_replace2(s_hidden) #NOLSTM
-        s_hidden = s_hidden.permute(1, 0, 2)
+        s_hidden = s_hidden.permute(1, 0, 2).to(device="cuda")
+        s_out = s_out.to(device="cuda")
         #s_hidden = (s_hidden[0]+s_hidden_reversed[0],
         #            s_hidden[1]+s_hidden_reversed[1])
 

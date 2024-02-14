@@ -1,4 +1,5 @@
 import argparse
+import time
 import uuid
 import os
 import torch
@@ -544,6 +545,7 @@ for epoch in range(args.epochs):
               '|running rwd: {:.2f} |best cost: {:.3f}\033[0m'
               .format(train_rwd_log.exp_avg, train_best_dist_log.val/10000))
 
+
         if not args.test_from_data:
 
             print('\033[1;33;40m Valid - epoch:{} |rwd: {:.2f}'
@@ -557,6 +559,10 @@ for epoch in range(args.epochs):
                   .format(val_rwd_log.exp_avg, val_best_dist_log.val/10000),
                   '|optimal cost: {:.3f} |gap {:.3f}\033[0m'
                   .format(np.mean(test_data.opt), gap))
+
+        t = time.localtime()
+        current_time = time.strftime("%H:%M:%S", t)
+        print(current_time)
 
         # print("\033[1;37;40m Probabilities: \n",
         #       np.array2string(avg_probs,
