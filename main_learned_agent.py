@@ -12,7 +12,7 @@ from tqdm import tqdm
 from TSPEnvironment import TSPInstanceEnv, VecEnv
 from ActorCriticNetwork import ActorCriticNetwork
 
-
+#Test
 parser = argparse.ArgumentParser(description='TSPNet')
 
 # ----------------------------------- Data ---------------------------------- #
@@ -25,7 +25,7 @@ parser.add_argument('--n_points',
                     type=int, default=20, help='Number of points in TSP') #20
 # ---------------------------------- Train ---------------------------------- #
 parser.add_argument('--n_steps',
-                    default=2000,
+                    default=5,
                     type=int, help='Number of steps in each episode')
 parser.add_argument('--render',
                     default=True,
