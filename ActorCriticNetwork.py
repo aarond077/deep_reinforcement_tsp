@@ -107,42 +107,42 @@ class Encoder(nn.Module):
 
 
         rnn_input = g_embedding
-        #rnn_input_reversed = torch.flip(g_embedding, [1])
+        rnn_input_reversed = torch.flip(g_embedding, [1])
 
 
         # first RNN reads the last node on the input
         rnn0_input = rnn_input[:, -1, :].unsqueeze(1)
-        #self.rnn0.flatten_parameters()
+        self.rnn0.flatten_parameters()
         _, (h0, c0) = self.rnn0(rnn0_input, (h0, c0))
         # second RNN reads the sequence of nodes
         self.rnn.flatten_parameters()
-        #s_out, s_hidden = self.rnn(rnn_input, (h0, c0))
-#
-        # first RNN reads the last node on the input
-        #rnn0_input_reversed = rnn_input_reversed[:, -1, :].unsqueeze(1)
-        #self.rnn0_reversed.flatten_parameters()
-        #_, (h0_r, c0_r) = self.rnn0_reversed(rnn0_input_reversed)
-        # second RNN reads the sequence of nodes
-        #self.rnn_reversed.flatten_parameters()
-        #s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed)
+        s_out, s_hidden = self.rnn(rnn_input, (h0, c0))
 
-        s_out = g_embedding #ÄNDERUNG NO LSTM
+        # first RNN reads the last node on the input
+        rnn0_input_reversed = rnn_input_reversed[:, -1, :].unsqueeze(1)
+        self.rnn0_reversed.flatten_parameters()
+        _, (h0_r, c0_r) = self.rnn0_reversed(rnn0_input_reversed)
+        # second RNN reads the sequence of nodes
+        self.rnn_reversed.flatten_parameters()
+        s_out_reversed, s_hidden_reversed = self.rnn_reversed(rnn_input_reversed)
+
+        #s_out = g_embedding #ÄNDERUNG NO LSTM
 
         s_out = tanh(self.W_f(s_out)
-                     + self.W_b(s_out)) #ÄNDERUNG NO LSTM: torch.flip(s_out_reversed, [1]))
+                     + self.W_b(torch.flip(s_out_reversed, [1]))) #ÄNDERUNG NO LSTM: torch.flip(s_out_reversed, [1]))
 
-        lstm_replacement1 = nn.Linear(128, 1) #NOLSTM
-        s_hidden = lstm_replacement1(s_out) #NOLSTM
-        s_hidden = s_hidden.permute(0, 2, 1) #NOLSTM
+        #lstm_replacement1 = nn.Linear(128, 1) #NOLSTM
+        #s_hidden = lstm_replacement1(s_out) #NOLSTM
+        #s_hidden = s_hidden.permute(0, 2, 1) #NOLSTM
 
-        lstm_replace2 = nn.Linear(20, 128) #NOLSTM
-        s_hidden = lstm_replace2(s_hidden) #NOLSTM
-        s_hidden = s_hidden.permute(1, 0, 2).to(device="cuda")
-        s_out = s_out.to(device="cuda")
-        #s_hidden = (s_hidden[0]+s_hidden_reversed[0],
-        #            s_hidden[1]+s_hidden_reversed[1])
+        #lstm_replace2 = nn.Linear(20, 128) #NOLSTM
+        #s_hidden = lstm_replace2(s_hidden) #NOLSTM
+        #s_hidden = s_hidden.permute(1, 0, 2).to(device="cuda")
+        #s_out = s_out.to(device="cuda")
+        s_hidden = (s_hidden[0]+s_hidden_reversed[0],
+                    s_hidden[1]+s_hidden_reversed[1])
 
-        s_hidden = (s_hidden, s_hidden) #NOLSTM
+        #s_hidden = (s_hidden, s_hidden) #NOLSTM
         return s_out, s_hidden, _, g_embedding
 
 
@@ -405,18 +405,18 @@ class ActorCriticNetwork(nn.Module):
 
         # enc_h: get the last layer of the LSTM encoder
         enc_h = (s_hidden[0][-1], s_hidden[1][-1])
-        enc_h_star = (s_hidden_star[0][-1], s_hidden_star[1][-1])
+        #enc_h_star = (s_hidden_star[0][-1], s_hidden_star[1][-1]) #ÄNDERUNG: no bestsol
 
         probs, pts, log_probs_pts, entropies = self.decoder_a(enc_h, #last layer of lstm
                                                               s_out, #lstm output
                                                               s_out, #lstm output
                                                               actions, #None
                                                               g_embedding, #gcn layer
-                                                              enc_h_star) #last layer of star lstm
+                                                              None) #last layer of star lstm ÄNDERUNG NOBESTSOL: enc_h_star
 
         v_g = torch.mean(g_embedding, dim=1).squeeze(1)
-        h_v = torch.cat([self.W_star(enc_h_star[0]), self.W_s(enc_h[0])],
-                        dim=1)
-        v = self.decoder_c(v_g + h_v) #value decoder
+        #h_v = torch.cat([self.W_star(enc_h_star[0]), self.W_s(enc_h[0])],
+        #                dim=1)
+        v = self.decoder_c(v_g)#+ h_v) #value decoder
 
         return probs, pts, log_probs_pts, v, entropies, enc_h
