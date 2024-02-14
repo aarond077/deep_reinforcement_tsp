@@ -6,7 +6,7 @@ from torch import tanh
 import math
 import utils
 
-
+#Test
 class Encoder(nn.Module):
     """
     Encoder of TSP-Net
