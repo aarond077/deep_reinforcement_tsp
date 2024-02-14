@@ -399,7 +399,7 @@ class ActorCriticNetwork(nn.Module):
 
     def forward(self, inputs, inputs_star, hidden=None, actions=None):
 
-        _, s_hidden_star, _, _ = self.encoder_star(inputs_star, hidden)
+        #_, s_hidden_star, _, _ = self.encoder_star(inputs_star, hidden)
 
         s_out, s_hidden, _, g_embedding = self.encoder(inputs, hidden)
 

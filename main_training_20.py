@@ -420,7 +420,7 @@ if __name__ == '__main__':
                 else:
                     R = None
                 count_learn += 1
-                learn(R, t_s, args.beta, args.zeta, count_learn, epoch)
+                learn(None, t_s, args.beta, args.zeta, count_learn, epoch) #no best solution
 
             epoch_rewards.append(batch_reward)
             epoch_best_distances.append(best_distance)
