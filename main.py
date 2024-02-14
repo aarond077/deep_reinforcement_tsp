@@ -120,7 +120,7 @@ if args.name != '':
 print("Name:", str(id))
 
 # select a gpu to use
-if args.gpu and torch.cuda.is_available():
+if args.gpu and torch.cuda.is_available() and False:
     USE_CUDA = True
     print('Using GPU, {} devices available.'.format(torch.cuda.device_count()))
     torch.cuda.set_device(args.gpu_n)
