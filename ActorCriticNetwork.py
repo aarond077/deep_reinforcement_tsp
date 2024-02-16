@@ -399,24 +399,24 @@ class ActorCriticNetwork(nn.Module):
 
     def forward(self, inputs, inputs_star, hidden=None, actions=None):
 
-        #_, s_hidden_star, _, _ = self.encoder_star(inputs_star, hidden)
+        _, s_hidden_star, _, _ = self.encoder_star(inputs_star, hidden)
 
         s_out, s_hidden, _, g_embedding = self.encoder(inputs, hidden)
 
         # enc_h: get the last layer of the LSTM encoder
         enc_h = (s_hidden[0][-1], s_hidden[1][-1])
-        #enc_h_star = (s_hidden_star[0][-1], s_hidden_star[1][-1]) #ÄNDERUNG: no bestsol
+        enc_h_star = (s_hidden_star[0][-1], s_hidden_star[1][-1]) #ÄNDERUNG: no bestsol
 
         probs, pts, log_probs_pts, entropies = self.decoder_a(enc_h, #last layer of lstm
                                                               s_out, #lstm output
                                                               s_out, #lstm output
                                                               actions, #None
                                                               g_embedding, #gcn layer
-                                                              None) #last layer of star lstm ÄNDERUNG NOBESTSOL: enc_h_star
+                                                              enc_h_star) #last layer of star lstm ÄNDERUNG NOBESTSOL: enc_h_star
 
         v_g = torch.mean(g_embedding, dim=1).squeeze(1)
-        #h_v = torch.cat([self.W_star(enc_h_star[0]), self.W_s(enc_h[0])],
-        #                dim=1)
-        v = self.decoder_c(v_g)#+ h_v) #value decoder
+        h_v = torch.cat([self.W_star(enc_h_star[0]), self.W_s(enc_h[0])],
+                        dim=1)
+        v = self.decoder_c(v_g + h_v) #value decoder
 
         return probs, pts, log_probs_pts, v, entropies, enc_h
