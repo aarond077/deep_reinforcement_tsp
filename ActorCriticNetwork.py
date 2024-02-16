@@ -293,7 +293,7 @@ class Decoder(nn.Module):
                 mask[:, -1] = 1
 
             h = tanh(self.W_1(h) + self.W_0(dec_input))
-#73.9876
+
             prob, _ = self.att(ref, h, torch.eq(mask, 0))
 
             # # Masking selected inputs
