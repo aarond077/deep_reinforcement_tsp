@@ -129,7 +129,7 @@ if __name__ == '__main__':
             state, reward, _, best_distance, distance, best_state = env.step(action)
 
             print("t =" + str(t) + " state:" + str(state) + str(distance))
-            #print(best_distance)
+            print(best_distance)
             sum_reward += reward
             t += 1
             step_best_distances.append(np.mean(best_distance) / 10000)
