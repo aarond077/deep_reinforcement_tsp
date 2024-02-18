@@ -92,7 +92,7 @@ if args.test_from_data:
                                                       'TSP{}-data-test-norm.json'
                                                       .format(args.n_points)),
                            num_samples=args.test_size, seed=args.sample_seed)
-    else:
+    elif not args.test_norm_data:
         test_data = TSPDataset(dataset_fname=os.path.join(args.data_dir,
                                                        'TSP{}-data-test.json'
                                                           .format(args.n_points)),
