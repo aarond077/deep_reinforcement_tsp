@@ -21,6 +21,9 @@ parser.add_argument('--test_size',
 parser.add_argument('--test_from_data',
                     default=True,
                     action='store_true', help='Render')
+parser.add_argument('--test_norm_data',
+                    default=False,
+                    action='store_true', help='Render')
 parser.add_argument('--n_points',
                     type=int, default=20, help='Number of points in TSP') #20
 # ---------------------------------- Train ---------------------------------- #
@@ -84,10 +87,17 @@ if USE_CUDA:
     model.cuda()
 
 if args.test_from_data:
-    test_data = TSPDataset(dataset_fname=os.path.join(args.data_dir,
-                                                      'TSP{}-data-test.json'
+    if args.test_norm_data:
+        test_data = TSPDataset(dataset_fname=os.path.join(args.data_dir,
+                                                      'TSP{}-data-test-norm.json'
                                                       .format(args.n_points)),
                            num_samples=args.test_size, seed=args.sample_seed)
+    else:
+        test_data = TSPDataset(dataset_fname=os.path.join(args.data_dir,
+                                                       'TSP{}-data-test.json'
+                                                          .format(args.n_points)),
+                               num_samples=args.test_size, seed=args.sample_seed)
+
 test_loader = DataLoader(test_data,
                          batch_size=args.test_size,
                          shuffle=False,
