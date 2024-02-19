@@ -201,9 +201,9 @@ class VecEnv():
         self.best_distances = np.ndarray((self.n_envs, 1))
         self.distances = np.ndarray((self.n_envs, 1))
 
-        #tour = [x for x in range(self.n_nodes)]
+        tour = [x for x in range(self.n_nodes)]
 
-        tour = random.sample(range(0, self.n_nodes), self.n_nodes) #ÄNDERUNG: Random Tour init
+        #tour = random.sample(range(0, self.n_nodes), self.n_nodes) #ÄNDERUNG: Random Tour init
         idx = 0
         for env in self.envs:
             observations[idx], best_observations[idx] = env.reset(points[idx],
